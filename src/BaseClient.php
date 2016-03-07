@@ -56,7 +56,7 @@ abstract class BaseClient extends SoapClient
         $classmap = [];
 
         foreach ($this->classes as $class) {
-            $classmap[$class] = "DivideBV\\Postnl\\ComplexTypes\\{$class}";
+            $classmap[$class] = 'DivideBV\\Postnl\\ComplexTypes\\' . $class;
         }
 
         return $classmap;

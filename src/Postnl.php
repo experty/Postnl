@@ -298,7 +298,7 @@ class Postnl
 
     /**
      * @param string $barcode
-     * @return CurrentStatusResponse
+     * @return ComplexTypes\CurrentStatusResponse
      *
      * @see ShippingStatusClient::currentStatus()
      */
@@ -312,6 +312,21 @@ class Postnl
 
         // Query the webservice and return the result.
         return $this->call('ShippingStatusClient', __FUNCTION__, $request);
+    }
+
+    /**
+     * @param string $postalCode
+     * @param bool $allowSundaySorting
+     * @param string|null $deliveryDate
+     * @return ComplexTypes\GetLocationsResponse
+     */
+    public function getNearestLocations($postalCode, $allowSundaySorting = false, $deliveryDate = null)
+    {
+        $message = new ComplexTypes\Message;
+        $location = new ComplexTypes\Location($postalCode, $allowSundaySorting, $deliveryDate);
+
+        $request = new ComplexTypes\GetNearestLocationsRequest($message, $location);
+        return $this->call('LocationClient', __FUNCTION__, $request);
     }
 
     /**
@@ -345,7 +360,7 @@ class Postnl
     {
         // Instantiate the client if not set yet.
         if (!isset($this->clients[$clientName])) {
-            $className = __NAMESPACE__ . "\\$clientName";
+            $className = __NAMESPACE__ . '\\' . $clientName;
             $this->clients[$clientName] = new $className($this->securityHeader, $this->sandbox);
         }
 

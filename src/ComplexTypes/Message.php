@@ -27,7 +27,7 @@ class Message extends BaseType
     public function __construct($MessageID = 1, $MessageTimeStamp = null)
     {
         $this->setMessageID($MessageID);
-        $this->setMessageTimeStamp($MessageTimeStamp ?: (new DateTime)->format("d-m-Y H:i:s"));
+        $this->setMessageTimeStamp($MessageTimeStamp ?: (new DateTime)->format('d-m-Y H:i:s'));
     }
 
     /**
