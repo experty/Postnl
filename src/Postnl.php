@@ -330,6 +330,19 @@ class Postnl
     }
 
     /**
+     * @param string $locationCode
+     * @param string $retailNetworkID
+     * @return ComplexTypes\GetLocationResponse
+     */
+    public function getLocation($locationCode, $retailNetworkID)
+    {
+        $message = new ComplexTypes\Message;
+
+        $request = new ComplexTypes\GetLocationRequest($message, $locationCode, $retailNetworkID);
+        return $this->call('LocationClient', __FUNCTION__, $request);
+    }
+
+    /**
      * Get the raw XML of the last SOAP request and reponse.
      */
     public function debug()

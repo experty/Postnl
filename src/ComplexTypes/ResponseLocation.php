@@ -53,6 +53,11 @@ class ResponseLocation extends BaseType
     protected $PhoneNumber = null;
 
     /**
+     * @var string
+     */
+    protected $RetailNetworkID = null;
+
+    /**
      * @return Address
      */
     public function getAddress()
@@ -229,6 +234,24 @@ class ResponseLocation extends BaseType
     public function setPhoneNumber($PhoneNumber)
     {
         $this->PhoneNumber = $PhoneNumber;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetailNetworkID()
+    {
+        return $this->RetailNetworkID;
+    }
+
+    /**
+     * @param string $RetailNetworkID
+     * @return $this
+     */
+    public function setRetailNetworkID($RetailNetworkID)
+    {
+        $this->RetailNetworkID = $RetailNetworkID;
         return $this;
     }
 

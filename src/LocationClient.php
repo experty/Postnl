@@ -37,8 +37,17 @@ class LocationClient extends BaseClient
      * @param ComplexTypes\GetNearestLocationsRequest $getNearestLocations
      * @return ComplexTypes\GetLocationsResponse
      */
-    public function getNearestLocation(ComplexTypes\GetNearestLocationsRequest $getNearestLocations)
+    public function getNearestLocations(ComplexTypes\GetNearestLocationsRequest $getNearestLocations)
     {
         return $this->__soapCall('GetNearestLocations', [$getNearestLocations]);
+    }
+
+    /**
+     * @param ComplexTypes\GetLocationRequest $getLocation
+     * @return ComplexTypes\GetLocationResponse
+     */
+    public function getLocation(ComplexTypes\GetLocationRequest $getLocation)
+    {
+        return $this->__soapCall('GetLocation', [$getLocation]);
     }
 }
