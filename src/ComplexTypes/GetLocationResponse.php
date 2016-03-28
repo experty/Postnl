@@ -3,15 +3,26 @@
 class GetLocationResponse extends BaseType
 {
     /**
-     * @var ArrayOfResponseLocation
+     * @var ResponseLocation
      */
-    protected $GetLocationsResult;
+    protected $GetLocationResult;
 
     /**
-     * @return ArrayOfResponseLocation
+     * @return ResponseLocation
      */
-    public function getResults()
+    public function getResult()
     {
-        return $this->GetLocationsResult;
+        return $this->GetLocationResult;
+    }
+
+    /**
+     * @param ResponseLocation $LocationResult
+     * @return $this
+     */
+    public function setResult(ResponseLocation $LocationResult)
+    {
+        $this->GetLocationResult = $LocationResult;
+
+        return $this;
     }
 }

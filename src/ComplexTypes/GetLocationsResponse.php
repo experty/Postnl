@@ -14,4 +14,15 @@ class GetLocationsResponse extends BaseType
     {
         return $this->GetLocationsResult;
     }
+
+    /**
+     * @param ArrayOfResponseLocation $LocationsResult
+     * @return $this
+     */
+    public function setResults(ArrayOfResponseLocation $LocationsResult)
+    {
+        $this->GetLocationsResult = $LocationsResult;
+
+        return $this;
+    }
 }
