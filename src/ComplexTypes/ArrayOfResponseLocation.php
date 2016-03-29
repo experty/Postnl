@@ -9,20 +9,20 @@ class ArrayOfResponseLocation extends BaseArrayOfType
     const WRAPPED_PROPERTY = 'ResponseLocation';
 
     /**
-     * @var ResponseLocation[] $ResponseLocation
+     * @var ResponseLocation|ResponseLocation[] $ResponseLocation
      */
     protected $ResponseLocation = null;
 
     /**
-     * @param ResponseLocation[] $ResponseLocation
+     * @param ResponseLocation|ResponseLocation[] $ResponseLocation
      */
-    public function __construct(array $ResponseLocation)
+    public function __construct($ResponseLocation)
     {
         $this->setResponseLocation($ResponseLocation);
     }
 
     /**
-     * @return ResponseLocation[]
+     * @return ResponseLocation|ResponseLocation[]
      */
     public function getResponseLocation()
     {
@@ -30,12 +30,13 @@ class ArrayOfResponseLocation extends BaseArrayOfType
     }
 
     /**
-     * @param ResponseLocation[] $ResponseLocation
-     * @return ArrayOfResponseLocation
+     * @param ResponseLocation|ResponseLocation[] $ResponseLocation
+     * @return $this
      */
-    public function setResponseLocation(array $ResponseLocation)
+    public function setResponseLocation($ResponseLocation)
     {
         $this->ResponseLocation = $ResponseLocation;
+
         return $this;
     }
 }

@@ -332,7 +332,7 @@ class Postnl
     /**
      * @param string $locationCode
      * @param string $retailNetworkID
-     * @return ComplexTypes\GetLocationResponse
+     * @return ComplexTypes\GetLocationsResponse
      */
     public function getLocation($locationCode, $retailNetworkID)
     {

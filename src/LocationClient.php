@@ -44,7 +44,7 @@ class LocationClient extends BaseClient
 
     /**
      * @param ComplexTypes\GetLocationRequest $getLocation
-     * @return ComplexTypes\GetLocationResponse
+     * @return ComplexTypes\GetLocationsResponse
      */
     public function getLocation(ComplexTypes\GetLocationRequest $getLocation)
     {
