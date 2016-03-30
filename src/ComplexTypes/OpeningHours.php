@@ -38,4 +38,19 @@ class OpeningHours extends BaseType
      */
     protected $Wednesday = [];
 
+    /**
+     * @return string[][]
+     */
+    public function getAll()
+    {
+        return [
+            'Monday' => $this->Monday,
+            'Tuesday' => $this->Tuesday,
+            'Wednesday' => $this->Wednesday,
+            'Thursday' => $this->Thursday,
+            'Friday' => $this->Friday,
+            'Saturday' => $this->Saturday,
+            'Sunday' => $this->Sunday
+        ];
+    }
 }
