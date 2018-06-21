@@ -4,53 +4,163 @@ class OpeningHours extends BaseType
 {
 
     /**
-     * @var string[]
+     * @var string $Monday
      */
-    protected $Friday = [];
+    protected $Monday = null;
 
     /**
-     * @var string[]
+     * @var string $Tuesday
      */
-    protected $Monday = [];
+    protected $Tuesday = null;
 
     /**
-     * @var string[]
+     * @var string $Wednesday
      */
-    protected $Saturday = [];
+    protected $Wednesday = null;
 
     /**
-     * @var string[]
+     * @var string $Thursday
      */
-    protected $Sunday = [];
+    protected $Thursday = null;
 
     /**
-     * @var string[]
+     * @var string $Friday
      */
-    protected $Thursday = [];
+    protected $Friday = null;
 
     /**
-     * @var string[]
+     * @var string $Saturday
      */
-    protected $Tuesday = [];
+    protected $Saturday = null;
 
     /**
-     * @var string[]
+     * @var string $Sunday
      */
-    protected $Wednesday = [];
+    protected $Sunday = null;
 
     /**
-     * @return string[][]
+     * @return string
      */
-    public function getAll()
+    public function getMonday()
     {
-        return [
-            'Monday' => $this->Monday,
-            'Tuesday' => $this->Tuesday,
-            'Wednesday' => $this->Wednesday,
-            'Thursday' => $this->Thursday,
-            'Friday' => $this->Friday,
-            'Saturday' => $this->Saturday,
-            'Sunday' => $this->Sunday
-        ];
+        return $this->Monday;
+    }
+
+    /**
+     * @param string $Monday
+     * @return OpeningHours
+     */
+    public function setMonday($Monday)
+    {
+        $this->Monday = (string)$Monday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTuesday()
+    {
+        return $this->Tuesday;
+    }
+
+    /**
+     * @param string $Tuesday
+     * @return OpeningHours
+     */
+    public function setTuesday($Tuesday)
+    {
+        $this->Tuesday = (string)$Tuesday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWednesday()
+    {
+        return $this->Wednesday;
+    }
+
+    /**
+     * @param string $Wednesday
+     * @return OpeningHours
+     */
+    public function setWednesday($Wednesday)
+    {
+        $this->Wednesday = (string)$Wednesday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThursday()
+    {
+        return $this->Thursday;
+    }
+
+    /**
+     * @param string $Thursday
+     * @return OpeningHours
+     */
+    public function setThursday($Thursday)
+    {
+        $this->Thursday = (string)$Thursday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriday()
+    {
+        return $this->Friday;
+    }
+
+    /**
+     * @param string $Friday
+     * @return OpeningHours
+     */
+    public function setFriday($Friday)
+    {
+        $this->Friday = (string)$Friday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSaturday()
+    {
+        return $this->Saturday;
+    }
+
+    /**
+     * @param string $Saturday
+     * @return OpeningHours
+     */
+    public function setSaturday($Saturday)
+    {
+        $this->Saturday = (string)$Saturday;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSunday()
+    {
+        return $this->Sunday;
+    }
+
+    /**
+     * @param string $Sunday
+     * @return OpeningHours
+     */
+    public function setSunday($Sunday)
+    {
+        $this->Sunday = (string)$Sunday;
+        return $this;
     }
 }

@@ -2,60 +2,124 @@
 
 class ResponseLocation extends BaseType
 {
+
     /**
-     * @var Address
+     * @var Address $Address
      */
     protected $Address = null;
 
     /**
-     * @var string[]
+     * @var string[] $DeliveryOptions
      */
-    protected $DeliveryOptions = [];
+    protected $DeliveryOptions = null;
 
     /**
-     * @var string
+     * @var string $Distance
      */
     protected $Distance = null;
 
     /**
-     * @var string
+     * @var string $Latitude
      */
     protected $Latitude = null;
 
     /**
-     * @var string
+     * @var string $LocationCode
      */
     protected $LocationCode = null;
 
     /**
-     * @var string
+     * @var string $Longitude
      */
     protected $Longitude = null;
 
     /**
-     * @var string
+     * @var string $Name
      */
     protected $Name = null;
 
     /**
-     * @var OpeningHours
+     * @var OpeningHours $OpeningHours
      */
     protected $OpeningHours = null;
 
     /**
-     * @var string
+     * @var string $PartnerName
      */
     protected $PartnerName = null;
 
     /**
-     * @var string
+     * @var string $PhoneNumber
      */
     protected $PhoneNumber = null;
 
     /**
-     * @var string
+     * @var string $RetailFormulaName
+     */
+    protected $RetailFormulaName = null;
+
+    /**
+     * @var string $RetailNetworkID
      */
     protected $RetailNetworkID = null;
+
+    /**
+     * @var string $Saleschannel
+     */
+    protected $Saleschannel = null;
+
+    /**
+     * @var string $TerminalType
+     */
+    protected $TerminalType = null;
+
+    /**
+     * @param Address $Address
+     * @param string[] $DeliveryOptions
+     * @param string $Distance
+     * @param string $Latitude
+     * @param string $LocationCode
+     * @param string $Longtitude
+     * @param string $Name
+     * @param OpeningHours $OpeningHours
+     * @param string $PartnerName
+     * @param string $PhoneNumber
+     * @param string $RetailFormulaName
+     * @param string $RetailNetworkID
+     * @param string $Saleschannel
+     * @param string $TerminalType
+     */
+    public function __construct(
+        Address $Address,
+        array $DeliveryOptions,
+        $Distance,
+        $Latitude,
+        $LocationCode,
+        $Longtitude,
+        $Name,
+        OpeningHours $OpeningHours,
+        $PartnerName,
+        $PhoneNumber,
+        $RetailFormulaName,
+        $RetailNetworkID,
+        $Saleschannel,
+        $TerminalType
+    ) {
+        $this->setAddress($Address);
+        $this->setDeliveryOptions($DeliveryOptions);
+        $this->setDistance($Distance);
+        $this->setLatitude($Latitude);
+        $this->setLocationCode($LocationCode);
+        $this->setLongitude($Longtitude);
+        $this->setName($Name);
+        $this->setOpeningHours($OpeningHours);
+        $this->setPartnerName($PartnerName);
+        $this->setPhoneNumber($PhoneNumber);
+        $this->setRetailFormulaName($RetailFormulaName);
+        $this->setRetailNetworkID($RetailNetworkID);
+        $this->setSaleschannel($Saleschannel);
+        $this->setTerminalType($TerminalType);
+    }
 
     /**
      * @return Address
@@ -67,7 +131,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param Address $Address
-     * @return $this
+     * @return ResponseLocation
      */
     public function setAddress($Address)
     {
@@ -76,7 +140,7 @@ class ResponseLocation extends BaseType
     }
 
     /**
-     * @return \string[]
+     * @return string[]
      */
     public function getDeliveryOptions()
     {
@@ -84,8 +148,8 @@ class ResponseLocation extends BaseType
     }
 
     /**
-     * @param \string[] $DeliveryOptions
-     * @return $this
+     * @param string[] $DeliveryOptions
+     * @return ResponseLocation
      */
     public function setDeliveryOptions($DeliveryOptions)
     {
@@ -103,7 +167,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $Distance
-     * @return $this
+     * @return ResponseLocation
      */
     public function setDistance($Distance)
     {
@@ -121,7 +185,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $Latitude
-     * @return $this
+     * @return ResponseLocation
      */
     public function setLatitude($Latitude)
     {
@@ -139,7 +203,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $LocationCode
-     * @return $this
+     * @return ResponseLocation
      */
     public function setLocationCode($LocationCode)
     {
@@ -157,7 +221,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $Longitude
-     * @return $this
+     * @return ResponseLocation
      */
     public function setLongitude($Longitude)
     {
@@ -175,7 +239,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $Name
-     * @return $this
+     * @return ResponseLocation
      */
     public function setName($Name)
     {
@@ -193,7 +257,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param OpeningHours $OpeningHours
-     * @return $this
+     * @return ResponseLocation
      */
     public function setOpeningHours($OpeningHours)
     {
@@ -211,7 +275,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $PartnerName
-     * @return $this
+     * @return ResponseLocation
      */
     public function setPartnerName($PartnerName)
     {
@@ -229,11 +293,29 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $PhoneNumber
-     * @return $this
+     * @return ResponseLocation
      */
     public function setPhoneNumber($PhoneNumber)
     {
         $this->PhoneNumber = $PhoneNumber;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRetailFormulaName()
+    {
+        return $this->RetailFormulaName;
+    }
+
+    /**
+     * @param string $RetailFormulaName
+     * @return ResponseLocation
+     */
+    public function setRetailFormulaName($RetailFormulaName)
+    {
+        $this->RetailFormulaName = $RetailFormulaName;
         return $this;
     }
 
@@ -247,7 +329,7 @@ class ResponseLocation extends BaseType
 
     /**
      * @param string $RetailNetworkID
-     * @return $this
+     * @return ResponseLocation
      */
     public function setRetailNetworkID($RetailNetworkID)
     {
@@ -255,4 +337,39 @@ class ResponseLocation extends BaseType
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSaleschannel()
+    {
+        return $this->Saleschannel;
+    }
+
+    /**
+     * @param string $Saleschannel
+     * @return ResponseLocation
+     */
+    public function setSaleschannel($Saleschannel)
+    {
+        $this->Saleschannel = $Saleschannel;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTerminalType()
+    {
+        return $this->TerminalType;
+    }
+
+    /**
+     * @param string $TerminalType
+     * @return ResponseLocation
+     */
+    public function setTerminalType($TerminalType)
+    {
+        $this->TerminalType = $TerminalType;
+        return $this;
+    }
 }

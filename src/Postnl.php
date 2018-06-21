@@ -160,6 +160,22 @@ class Postnl
     }
 
     /**
+     * @param TimeframeClient $timeframeClient
+     */
+    public function setTimeframeClient(TimeframeClient $timeframeClient)
+    {
+        $this->clients['TimeframeClient'] = $timeframeClient;
+    }
+
+    /**
+     * @param DeliveryDateClient $deliveryDateClient
+     */
+    public function setDeliveryDateClient(DeliveryDateClient $deliveryDateClient)
+    {
+        $this->clients['DeliveryDateClient'] = $deliveryDateClient;
+    }
+
+    /**
      * @param string $type
      * @param string $customerCode
      *     Defaults to the customer code used to instantiate this object.
@@ -167,6 +183,8 @@ class Postnl
      *     Defaults to the customer number used to instantiate this object.
      * @param string $serie
      *     Defaults to the widest possible range.
+     * @param bool $eps
+     *     Defaults to false (NL shipment).
      * @return ComplexTypes\GenerateBarcodeResponse
      *
      * @see BarcodeClient::generateBarcode()
@@ -175,7 +193,8 @@ class Postnl
         $type,
         $customerCode = null,
         $customerNumber = null,
-        $serie = null
+        $serie = null,
+        $eps = false
     ) {
         // Validate $type parameter.
         if (!in_array($type, ['2S', '3S', 'CC', 'CP', 'CD', 'CF', 'CV'])) {
@@ -199,6 +218,11 @@ class Postnl
                     // 3S barcodes are the only ones that may be 15 characters
                     // long.
                     $serie = '000000000-999999999';
+                    if ($eps) {
+                        // 3S barcodes for EPS parcels need to be 13 characters
+                        // long.
+                        $serie = '0000000-9999999';
+                    }
                     break;
                 default:
                     // Globalpack is 4 digits, because the barcode is suffixed
@@ -238,15 +262,17 @@ class Postnl
         $customerNumber = null,
         $serie = null
     ) {
+        $eps = false;
+
         // If this country code has an explicit barcode type mapping, use it.
         if (in_array($countryCode, array_keys($this->countryCodeMapping))) {
             $type = $this->countryCodeMapping[$countryCode];
+            $eps = $countryCode != 'NL';
         } else {
             // Otherwise use GlobalPack.
             $type = $this->globalPackBarcodeType;
         }
-
-        return $this->generateBarcode($type, $customerCode, $customerNumber, $serie);
+        return $this->generateBarcode($type, $customerCode, $customerNumber, $serie, $eps);
     }
 
     /**
@@ -268,37 +294,77 @@ class Postnl
 
     /**
      * @param ComplexTypes\Shipment $shipment
+     * @param string $printerType
+     *     The file type used to generate the label. Defaults to PDF.
      * @param bool $confirm
      *     Defaults to true.
      * @return ComplexTypes\ResponseShipment
      *
      * @see LabellingClient::generateLabel()
      */
-    public function generateLabel(ComplexTypes\Shipment $shipment, $confirm = true)
+    public function generateLabel(ComplexTypes\Shipment $shipment, $printerType = 'GraphicFile|PDF', $confirm = true)
     {
-        // Prepare arguments.
-        $message = new ComplexTypes\LabellingMessage;
-        $customer = new ComplexTypes\Customer($this->customerNumber, $this->customerCode, $this->collectionLocation);
-        $request = new ComplexTypes\GenerateLabelRequest($message, $customer, $shipment);
+        $result = $this->generateLabels(new ComplexTypes\ArrayOfShipment([$shipment]), $printerType, $confirm);
 
-        // Query the webservice and return the result.
-        return $this->call('LabellingClient', $confirm ? __FUNCTION__ : 'generateLabelWithoutConfirm', $request);
+        // Return only the first shipment (there should be only 1).
+        return $result->getResponseShipments()[0];
     }
 
     /**
      * @param ComplexTypes\Shipment $shipment
+     * @param string $printerType
+     *     The file type used to generate the label. Defaults to PDF.
      * @return ComplexTypes\ResponseShipment
      *
      * @see LabellingClient::generateLabelWithoutConfirm()
      */
-    public function generateLabelWithoutConfirm(ComplexTypes\Shipment $shipment)
+    public function generateLabelWithoutConfirm(ComplexTypes\Shipment $shipment, $printerType = 'GraphicFile|PDF')
     {
-        return $this->generateLabel($shipment, false);
+        return $this->generateLabel($shipment, $printerType, false);
+    }
+
+    /**
+     * @param ComplexTypes\ArrayOfShipment $shipments
+     * @param string $printerType
+     *     The file type used to generate the label. Defaults to PDF.
+     * @param bool $confirm
+     *     Defaults to true.
+     * @return ComplexTypes\GenerateLabelResponse
+     *
+     * @see LabellingClient::generateLabel()
+     */
+    public function generateLabels(
+        ComplexTypes\ArrayOfShipment $shipments,
+        $printerType = 'GraphicFile|PDF',
+        $confirm = true
+    ) {
+        // Prepare arguments.
+        $message = new ComplexTypes\LabellingMessage($printerType);
+        $customer = new ComplexTypes\Customer($this->customerNumber, $this->customerCode, $this->collectionLocation);
+        $request = new ComplexTypes\GenerateLabelRequest($message, $customer, $shipments);
+
+        // Query the webservice and return the result.
+        return $this->call('LabellingClient', $confirm ? 'generateLabel' : 'generateLabelWithoutConfirm', $request);
+    }
+
+    /**
+     * @param ComplexTypes\ArrayOfShipment $shipments
+     * @param string $printerType
+     *     The file type used to generate the label. Defaults to PDF.
+     * @return ComplexTypes\GenerateLabelResponse
+     *
+     * @see LabellingClient::generateLabelWithoutConfirm()
+     */
+    public function generateLabelsWithoutConfirm(
+        ComplexTypes\ArrayOfShipment $shipments,
+        $printerType = 'GraphicFile|PDF'
+    ) {
+        return $this->generateLabels($shipments, $printerType, false);
     }
 
     /**
      * @param string $barcode
-     * @return ComplexTypes\CurrentStatusResponse
+     * @return CurrentStatusResponse
      *
      * @see ShippingStatusClient::currentStatus()
      */
@@ -315,30 +381,143 @@ class Postnl
     }
 
     /**
-     * @param string $postalCode
-     * @param bool $allowSundaySorting
-     * @param string|null $deliveryDate
-     * @return ComplexTypes\GetLocationsResponse
+     * @param string $barcode
+     * @return GetSignatureResponse
+     *
+     * @see ShippingStatusClient::getSignature()
      */
-    public function getNearestLocations($postalCode, $allowSundaySorting = false, $deliveryDate = null)
+    public function getSignature($barcode)
     {
+        // Prepare arguments.
+        $message = new ComplexTypes\Message;
+        $customer = new ComplexTypes\RequestCustomer($this->customerCode, $this->customerNumber);
+        $shipment = new ComplexTypes\RequestSignature($barcode);
+        $request = new ComplexTypes\GetSignatureRequest($message, $customer, $shipment);
+
+        // Query the webservice and return the result.
+        return $this->call('ShippingStatusClient', __FUNCTION__, $request);
+    }
+
+    /**
+     * @param $postalCode
+     * @param string $allowSundaySorting
+     * @param null|string $deliveryDate
+     * @param string $countryCode
+     * @return ComplexTypes\GetNearestLocationsResponse
+     */
+    public function getNearestLocations(
+        $postalCode,
+        $allowSundaySorting = 'false',
+        $deliveryDate = null,
+        $countryCode = 'NL'
+    ) {
         $message = new ComplexTypes\Message;
         $location = new ComplexTypes\Location($postalCode, $allowSundaySorting, $deliveryDate);
 
-        $request = new ComplexTypes\GetNearestLocationsRequest($message, $location);
+        $request = new ComplexTypes\GetNearestLocationsRequest($message, $location, $countryCode);
         return $this->call('LocationClient', __FUNCTION__, $request);
     }
 
     /**
-     * @param string $locationCode
-     * @param string $retailNetworkID
+     * @deprecated Use getNearestLocations() instead.
+     * @see getNearestLocations()
+     * @param $postalCode
+     * @param string $allowSundaySorting
+     * @param null|string $deliveryDate
+     * @param string $countryCode
+     * @return ComplexTypes\GetNearestLocationsResponse
+     */
+    public function getNearestLocation(
+        $postalCode,
+        $allowSundaySorting = 'false',
+        $deliveryDate = null,
+        $countryCode = 'NL'
+    ) {
+        return $this->getNearestLocations($postalCode, $allowSundaySorting, $deliveryDate, $countryCode);
+    }
+
+    /**
+     * @param string $postalCode
+     * @param string $houseNumber
+     * @param array $options
+     * @param string $startDate
+     * @param string $endDate
+     * @param string $countryCode
+     * @param string $allowSundaySorting
+     * @return ComplexTypes\GetTimeframesResponse
+     * @throws ComplexTypes\CifException
+     * @throws SoapFault
+     */
+    public function getTimeframes(
+        $postalCode,
+        $houseNumber,
+        $options = ['Daytime'],
+        $startDate = null,
+        $endDate = null,
+        $countryCode = 'NL',
+        $allowSundaySorting = 'false'
+    ) {
+        $message = new ComplexTypes\Message;
+        $timeframeRequest = new ComplexTypes\TimeframeRequest(
+            $postalCode,
+            $houseNumber,
+            $options,
+            $startDate,
+            $endDate,
+            $countryCode,
+            $allowSundaySorting
+        );
+        $request = new ComplexTypes\GetTimeframesRequest($message, $timeframeRequest);
+        return $this->call('TimeframeClient', __FUNCTION__, $request);
+    }
+
+    /**
+     * @param string $postalCode
+     * @param ComplexTypes\ArrayOfCutOffTime $cutOffTimes
+     * @param string $shippingDate
+     * @param int $shippingDuration
+     * @param string[] $options
+     * @param string $allowSundaySorting
+     * @param string $countryCode
+     * @return ComplexTypes\GetDeliveryDateResponse
+     */
+    public function getDeliveryDate(
+        $postalCode,
+        ComplexTypes\ArrayOfCutOffTime $cutOffTimes,
+        $shippingDate,
+        $shippingDuration = 1,
+        $options = ['Daytime'],
+        $allowSundaySorting = 'false',
+        $countryCode = 'NL'
+    ) {
+        $GetDeliveryDate = ComplexTypes\GetDeliveryDate::create()
+            ->setPostalCode($postalCode)
+            ->setCutOffTimes($cutOffTimes)
+            ->setShippingDate($shippingDate)
+            ->setShippingDuration($shippingDuration)
+            ->setOptions($options)
+            ->setAllowSundaySorting($allowSundaySorting)
+            ->setCountryCode($countryCode);
+
+        $message = new ComplexTypes\Message;
+        $request = new ComplexTypes\GetDeliveryDateRequest($message, $GetDeliveryDate);
+
+        // Query the webservice and return the result.
+        return $this->call('DeliveryDateClient', __FUNCTION__, $request);
+    }
+
+    /**
+     * Returns location information of the supplied location code.
+     *
+     * @param string $locationCode LocationCode information.
+     * @param string $retailNetworkId PNPNL-01 is the code that can be used for all Dutch locations.
      * @return ComplexTypes\GetLocationsResponse
      */
-    public function getLocation($locationCode, $retailNetworkID)
+    public function getLocation($locationCode, $retailNetworkId = 'PNPNL-01')
     {
         $message = new ComplexTypes\Message;
 
-        $request = new ComplexTypes\GetLocationRequest($message, $locationCode, $retailNetworkID);
+        $request = new ComplexTypes\GetLocationRequest($locationCode, $message, $retailNetworkId);
         return $this->call('LocationClient', __FUNCTION__, $request);
     }
 
@@ -373,7 +552,7 @@ class Postnl
     {
         // Instantiate the client if not set yet.
         if (!isset($this->clients[$clientName])) {
-            $className = __NAMESPACE__ . '\\' . $clientName;
+            $className = __NAMESPACE__ . "\\$clientName";
             $this->clients[$clientName] = new $className($this->securityHeader, $this->sandbox);
         }
 
@@ -392,7 +571,7 @@ class Postnl
      *
      * @throws ComplexTypes\CifException
      */
-    protected function call($clientName, $method, $parameter)
+    public function call($clientName, $method, $parameter)
     {
         try {
             return $this->getClient($clientName)->{$method}($parameter);
@@ -402,7 +581,10 @@ class Postnl
 
                 // Assemble exception data from the response.
                 $exceptionData = [];
-                foreach ($exception->detail->CifException->Errors as $error) {
+                $errors = $exception->detail->CifException->Errors->ExceptionData;
+                // Make sure `$errors` is an array.
+                $errors = is_array($errors) ? $errors : [$errors];
+                foreach ($errors as $error) {
                     $exceptionData[] = ComplexTypes\ExceptionData::create()
                         ->setDescription($error->Description)
                         ->setErrorMsg($error->ErrorMsg)

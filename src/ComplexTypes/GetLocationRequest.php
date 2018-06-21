@@ -4,51 +4,30 @@ class GetLocationRequest extends BaseType
 {
 
     /**
-     * @var Message $Message
-     */
-    protected $Message = null;
-
-    /**
      * @var string $LocationCode
      */
     protected $LocationCode = null;
+
+    /**
+     * @var Message $Message
+     */
+    protected $Message = null;
 
     /**
      * @var string $RetailNetworkID
      */
     protected $RetailNetworkID = null;
 
-
     /**
-     * GetNearestLocationsRequest constructor.
-     * @param Message $Message
      * @param string $LocationCode
+     * @param Message $Message
      * @param string $RetailNetworkID
      */
-    public function __construct(
-        Message $Message,
-        $LocationCode,
-        $RetailNetworkID
-    ) {
-        $this->setMessage($Message);
-        $this->setLocationCode($LocationCode);
-        $this->setRetailNetworkID($RetailNetworkID);
-    }
-
-    /**
-     * @return Message
-     */
-    public function getMessage()
+    public function __construct($LocationCode, Message $Message, $RetailNetworkID)
     {
-        return $this->Message;
-    }
-
-    /**
-     * @param Message $Message
-     */
-    public function setMessage($Message)
-    {
+        $this->LocationCode = $LocationCode;
         $this->Message = $Message;
+        $this->RetailNetworkID = $RetailNetworkID;
     }
 
     /**
@@ -61,10 +40,30 @@ class GetLocationRequest extends BaseType
 
     /**
      * @param string $LocationCode
+     * @return GetLocationRequest
      */
     public function setLocationCode($LocationCode)
     {
         $this->LocationCode = $LocationCode;
+        return $this;
+    }
+
+    /**
+     * @return Message
+     */
+    public function getMessage()
+    {
+        return $this->Message;
+    }
+
+    /**
+     * @param Message $Message
+     * @return GetLocationRequest
+     */
+    public function setMessage($Message)
+    {
+        $this->Message = $Message;
+        return $this;
     }
 
     /**
@@ -77,9 +76,11 @@ class GetLocationRequest extends BaseType
 
     /**
      * @param string $RetailNetworkID
+     * @return GetLocationRequest
      */
     public function setRetailNetworkID($RetailNetworkID)
     {
         $this->RetailNetworkID = $RetailNetworkID;
+        return $this;
     }
 }

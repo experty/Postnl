@@ -1,6 +1,6 @@
 <?php namespace DivideBV\Postnl\ComplexTypes;
 
-class GetNearestLocationsRequest extends BaseType
+class GetLocationsInAreaRequest extends BaseType
 {
 
     /**
@@ -9,7 +9,7 @@ class GetNearestLocationsRequest extends BaseType
     protected $Countrycode = null;
 
     /**
-     * @var Location $Location
+     * @var LocationArea $Location
      */
     protected $Location = null;
 
@@ -19,15 +19,15 @@ class GetNearestLocationsRequest extends BaseType
     protected $Message = null;
 
     /**
+     * @param $Countrycode
+     * @param LocationArea $Location
      * @param Message $Message
-     * @param Location $Location
-     * @param string $Countrycode
      */
-    public function __construct(Message $Message, Location $Location, $Countrycode)
+    public function __construct($Countrycode, LocationArea $Location, Message $Message)
     {
-        $this->setMessage($Message);
-        $this->setLocation($Location);
-        $this->setCountrycode($Countrycode);
+        $this->Countrycode = $Countrycode;
+        $this->Location = $Location;
+        $this->Message = $Message;
     }
 
     /**
@@ -40,7 +40,7 @@ class GetNearestLocationsRequest extends BaseType
 
     /**
      * @param string $Countrycode
-     * @return GetNearestLocationsRequest
+     * @return GetLocationsInAreaRequest
      */
     public function setCountrycode($Countrycode)
     {
@@ -49,7 +49,7 @@ class GetNearestLocationsRequest extends BaseType
     }
 
     /**
-     * @return Location
+     * @return LocationArea
      */
     public function getLocation()
     {
@@ -57,8 +57,8 @@ class GetNearestLocationsRequest extends BaseType
     }
 
     /**
-     * @param Location $Location
-     * @return GetNearestLocationsRequest
+     * @param LocationArea $Location
+     * @return GetLocationsInAreaRequest
      */
     public function setLocation($Location)
     {
@@ -76,7 +76,7 @@ class GetNearestLocationsRequest extends BaseType
 
     /**
      * @param Message $Message
-     * @return GetNearestLocationsRequest
+     * @return GetLocationsInAreaRequest
      */
     public function setMessage($Message)
     {
