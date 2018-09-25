@@ -4,40 +4,36 @@ class Dimension extends BaseType
 {
 
     /**
-     * @var string $Height
+     * @var string
      */
     protected $Height = null;
 
     /**
-     * @var string $Length
+     * @var string
      */
     protected $Length = null;
 
     /**
-     * @var string $Volume
+     * @var string
      */
     protected $Volume = null;
 
     /**
-     * @var string $Weight
+     * @var string
      */
     protected $Weight = null;
 
     /**
-     * @var string $Width
+     * @var string
      */
     protected $Width = null;
 
     /**
      * @param string $Weight
-     * @param string $Height
-     *     Optional.
-     * @param string $Length
-     *     Optional.
-     * @param string $Volume
-     *     Optional.
-     * @param string $Width
-     *     Optional.
+     * @param string $Height Optional.
+     * @param string $Length Optional.
+     * @param string $Volume Optional.
+     * @param string $Width Optional.
      */
     public function __construct($Weight, $Height = null, $Length = null, $Volume = null, $Width = null)
     {

@@ -7,18 +7,17 @@ class LocationClient extends BaseClient
 {
 
     /**
-     * The URL of the production WSDL.
+     * @var string The URL of the production WSDL.
      */
-    const PRODUCTION_WSDL = 'https://service.postnl.com/CIF/LocationWebService/2_1/?wsdl';
+    const PRODUCTION_WSDL = 'https://api.postnl.nl/shipment/v2_1/locations/soap.wsdl';
 
     /**
-     * The URL of the sandbox WSDL.
+     * @var string The URL of the sandbox WSDL.
      */
-    const SANDBOX_WSDL = 'https://testservice.postnl.com/CIF_SB/LocationWebService/2_1/?wsdl';
+    const SANDBOX_WSDL = 'https://api-sandbox.postnl.nl/shipment/v2_1/locations/soap.wsdl';
 
     /**
-     * @var array $classes
-     *     The complex types used by this client.
+     * @var array The complex types used by this client.
      */
     protected $classes = [
         'Address',
@@ -38,7 +37,7 @@ class LocationClient extends BaseClient
         'Message',
         'OpeningHours',
         'ResponseLocation',
-        'Warning'
+        'Warning',
     ];
 
     /**
@@ -48,17 +47,6 @@ class LocationClient extends BaseClient
     public function getNearestLocations(ComplexTypes\GetNearestLocationsRequest $getNearestLocations)
     {
         return $this->__soapCall('GetNearestLocations', [$getNearestLocations]);
-    }
-
-    /**
-     * @deprecated Use getNearestLocations() instead.
-     * @see getNearestLocations()
-     * @param ComplexTypes\GetNearestLocationsRequest $getNearestLocations
-     * @return ComplexTypes\GetLocationsResult
-     */
-    public function getNearestLocation(ComplexTypes\GetNearestLocationsRequest $getNearestLocations)
-    {
-        return $this->getNearestLocations($getNearestLocations);
     }
 
     /**

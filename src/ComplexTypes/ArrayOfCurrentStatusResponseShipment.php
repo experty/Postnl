@@ -4,12 +4,12 @@ class ArrayOfCurrentStatusResponseShipment extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'CurrentStatusResponseShipment';
 
     /**
-     * @var CurrentStatusResponseShipment[] $CurrentStatusResponseShipment
+     * @var CurrentStatusResponseShipment[]
      */
     protected $CurrentStatusResponseShipment = null;
 

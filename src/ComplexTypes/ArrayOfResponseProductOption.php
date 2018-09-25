@@ -4,12 +4,12 @@ class ArrayOfResponseProductOption extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'ResponseProductOption';
 
     /**
-     * @var ResponseProductOption[] $ResponseProductOption
+     * @var ResponseProductOption[]
      */
     protected $ResponseProductOption = null;
 

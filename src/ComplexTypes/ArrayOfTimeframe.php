@@ -4,12 +4,12 @@ class ArrayOfTimeframe extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'Timeframe';
 
     /**
-     * @var Timeframe[] $Timeframe
+     * @var Timeframe[]
      */
     protected $Timeframe = null;
 

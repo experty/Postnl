@@ -4,37 +4,37 @@ class Customer extends BaseType
 {
 
     /**
-     * @var string $CustomerNumber
+     * @var string
      */
     protected $CustomerNumber = null;
 
     /**
-     * @var string $CustomerCode
+     * @var string
      */
     protected $CustomerCode = null;
 
     /**
-     * @var string $CollectionLocation
+     * @var string
      */
     protected $CollectionLocation = null;
 
     /**
-     * @var string $ContactPerson
+     * @var string
      */
     protected $ContactPerson = null;
 
     /**
-     * @var string $Email
+     * @var string
      */
     protected $Email = null;
 
     /**
-     * @var string $Name
+     * @var string
      */
     protected $Name = null;
 
     /**
-     * @var Address $Address
+     * @var Address
      */
     protected $Address = null;
 
@@ -45,7 +45,7 @@ class Customer extends BaseType
      * @param string $ContactPerson
      * @param string $Email
      * @param string $Name
-     * @param Address $Address
+     * @param Address|null $Address
      */
     public function __construct(
         $CustomerNumber,

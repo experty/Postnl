@@ -4,12 +4,12 @@ class ArrayOfGetLocationsResult extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'GetLocationsResult';
 
     /**
-     * @var GetLocationsResult[] $LocationsResult
+     * @var GetLocationsResult[]
      */
     protected $LocationsResult = null;
 

@@ -4,12 +4,12 @@ class ArrayOfWarning extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'Warning';
 
     /**
-     * @var Warning[] $Warning
+     * @var Warning[]
      */
     protected $Warning = null;
 

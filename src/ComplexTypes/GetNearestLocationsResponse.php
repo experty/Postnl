@@ -7,12 +7,12 @@ class GetNearestLocationsResponse extends BaseType
 {
 
     /**
-     * @var ArrayOfGetLocationsResult $NearestLocationsResult
+     * @var ArrayOfGetLocationsResult
      */
     protected $NearestLocationsResult = null;
 
     /**
-     * @var ArrayOfWarning $Warning
+     * @var ArrayOfWarning|null
      */
     protected $Warnings = null;
 

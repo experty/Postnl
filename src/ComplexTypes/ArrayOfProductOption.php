@@ -4,12 +4,12 @@ class ArrayOfProductOption extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'ProductOption';
 
     /**
-     * @var ProductOption[] $ProductOption
+     * @var ProductOption[]
      */
     protected $ProductOption = null;
 

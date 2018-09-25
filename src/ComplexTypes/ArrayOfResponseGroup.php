@@ -4,12 +4,12 @@ class ArrayOfResponseGroup extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'ResponseGroup';
 
     /**
-     * @var ResponseGroup[] $ResponseGroup
+     * @var ResponseGroup[]
      */
     protected $ResponseGroup = null;
 

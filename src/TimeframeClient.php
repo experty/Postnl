@@ -7,18 +7,17 @@ class TimeframeClient extends BaseClient
 {
 
     /**
-     * The URL of the production WSDL.
+     * @var string The URL of the production WSDL.
      */
-    const PRODUCTION_WSDL = 'https://service.postnl.com/CIF/TimeframeWebService/2_0/?wsdl';
+    const PRODUCTION_WSDL = 'https://api.postnl.nl/shipment/v2_0/calculate/timeframes/soap.wsdl';
 
     /**
-     * The URL of the sandbox WSDL.
+     * @var string The URL of the sandbox WSDL.
      */
-    const SANDBOX_WSDL = 'https://testservice.postnl.com/CIF_SB/TimeframeWebService/2_0/?wsdl';
+    const SANDBOX_WSDL = 'https://api-sandbox.postnl.nl/shipment/v2_0/calculate/timeframes/soap.wsdl';
 
     /**
-     * @var array $classes
-     *     The complex types used by this client.
+     * @var array The complex types used by this client.
      */
     protected $classes = [
         'GetTimeframes',
@@ -31,7 +30,7 @@ class TimeframeClient extends BaseClient
         'ReasonNoTimeframe',
         'Timeframe',
         'TimeframeRequest',
-        'TimeframeTimeFrame'
+        'TimeframeTimeFrame',
     ];
 
     /**

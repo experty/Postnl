@@ -9,20 +9,18 @@ class Message extends BaseType
 {
 
     /**
-     * @var string $MessageID
+     * @var string
      */
     protected $MessageID = null;
 
     /**
-     * @var string $MessageTimeStamp
+     * @var string
      */
     protected $MessageTimeStamp = null;
 
     /**
-     * @param string $MessageID
-     *     Defaults to 1.
-     * @param string $MessageTimeStamp
-     *     Defaults to the current time.
+     * @param string $MessageID Defaults to 1.
+     * @param string $MessageTimeStamp Defaults to the current time.
      */
     public function __construct($MessageID = 1, $MessageTimeStamp = null)
     {

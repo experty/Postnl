@@ -4,12 +4,12 @@ class ArrayOfGetSignatureResponseSignature extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'GetSignatureResponseSignature';
 
     /**
-     * @var GetSignatureResponseSignature[] $GetSignatureResponseSignature
+     * @var GetSignatureResponseSignature[]
      */
     protected $GetSignatureResponseSignature = null;
 

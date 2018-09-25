@@ -10,54 +10,52 @@ class Postnl
 {
 
     /**
-     * @var string $customerNumber
+     * @var string
      */
     protected $customerNumber = null;
 
     /**
-     * @var string $customerCode
+     * @var string
      */
     protected $customerCode = null;
 
     /**
-     * @var string $customerName
+     * @var string
      */
     protected $customerName = null;
 
     /**
-     * @var ComplexTypes\SecurityHeader $securityHeader
+     * @var string
      */
-    protected $securityHeader = null;
+    protected $apikey = null;
 
     /**
-     * @var string $collectionLocation
+     * @var string
      */
     protected $collectionLocation = null;
 
     /**
-     * @var string $globalPackBarcodeType
+     * @var string
      */
     protected $globalPackBarcodeType = null;
 
     /**
-     * @var string $globalPackCustomerCode
+     * @var string
      */
     protected $globalPackCustomerCode = null;
 
     /**
-     * @var bool $sandbox
+     * @var bool
      */
     protected $sandbox = false;
 
     /**
-     * @var array $clients
-     *     An array with instantiated CIF clients.
+     * @var array An array with instantiated CIF clients.
      */
     protected $clients = [];
 
     /**
-     * @var string $lastClient
-     *     Contains the property name of the last used SOAP client.
+     * @var string Contains the property name of the last used SOAP client.
      */
     private $lastClient = null;
 
@@ -101,8 +99,7 @@ class Postnl
      * @param string $customerNumber
      * @param string $customerCode
      * @param string $customerName
-     * @param string $username
-     * @param string $password
+     * @param string $apikey
      * @param string $collectionLocation
      * @param string $globalPack
      * @param bool $sandbox
@@ -111,8 +108,7 @@ class Postnl
         $customerNumber,
         $customerCode,
         $customerName,
-        $username,
-        $password,
+        $apikey,
         $collectionLocation,
         $globalPack,
         $sandbox = false
@@ -120,7 +116,7 @@ class Postnl
         $this->customerNumber = $customerNumber;
         $this->customerCode = $customerCode;
         $this->customerName = $customerName;
-        $this->securityHeader = new ComplexTypes\SecurityHeader($username, $password);
+        $this->apikey = $apikey;
         $this->collectionLocation = $collectionLocation;
         $this->globalPackBarcodeType = preg_filter('/^(.{2})(.{4})$/', '$1', $globalPack);
         $this->globalPackCustomerCode = preg_filter('/^(.{2})(.{4})$/', '$2', $globalPack);
@@ -276,7 +272,7 @@ class Postnl
     }
 
     /**
-     * @param ComplexTypes\ConfirmingMessage $confirmingMessage
+     * @param ComplexTypes\ArrayOfShipment $shipments
      * @return ComplexTypes\ArrayOfConfirmingResponseShipment
      *
      * @see ConfirmingClient::confirming()
@@ -364,7 +360,7 @@ class Postnl
 
     /**
      * @param string $barcode
-     * @return CurrentStatusResponse
+     * @return ComplexTypes\CurrentStatusResponse
      *
      * @see ShippingStatusClient::currentStatus()
      */
@@ -382,7 +378,7 @@ class Postnl
 
     /**
      * @param string $barcode
-     * @return GetSignatureResponse
+     * @return ComplexTypes\GetSignatureResponse
      *
      * @see ShippingStatusClient::getSignature()
      */
@@ -399,7 +395,7 @@ class Postnl
     }
 
     /**
-     * @param $postalCode
+     * @param string $postalCode
      * @param string $allowSundaySorting
      * @param null|string $deliveryDate
      * @param string $countryCode
@@ -416,24 +412,6 @@ class Postnl
 
         $request = new ComplexTypes\GetNearestLocationsRequest($message, $location, $countryCode);
         return $this->call('LocationClient', __FUNCTION__, $request);
-    }
-
-    /**
-     * @deprecated Use getNearestLocations() instead.
-     * @see getNearestLocations()
-     * @param $postalCode
-     * @param string $allowSundaySorting
-     * @param null|string $deliveryDate
-     * @param string $countryCode
-     * @return ComplexTypes\GetNearestLocationsResponse
-     */
-    public function getNearestLocation(
-        $postalCode,
-        $allowSundaySorting = 'false',
-        $deliveryDate = null,
-        $countryCode = 'NL'
-    ) {
-        return $this->getNearestLocations($postalCode, $allowSundaySorting, $deliveryDate, $countryCode);
     }
 
     /**
@@ -509,8 +487,10 @@ class Postnl
     /**
      * Returns location information of the supplied location code.
      *
-     * @param string $locationCode LocationCode information.
-     * @param string $retailNetworkId PNPNL-01 is the code that can be used for all Dutch locations.
+     * @param string $locationCode
+     *     LocationCode information.
+     * @param string $retailNetworkId
+     *     PNPNL-01 is the code that can be used for all Dutch locations.
      * @return ComplexTypes\GetLocationsResponse
      */
     public function getLocation($locationCode, $retailNetworkId = 'PNPNL-01')
@@ -553,7 +533,7 @@ class Postnl
         // Instantiate the client if not set yet.
         if (!isset($this->clients[$clientName])) {
             $className = __NAMESPACE__ . "\\$clientName";
-            $this->clients[$clientName] = new $className($this->securityHeader, $this->sandbox);
+            $this->clients[$clientName] = new $className($this->apikey, $this->sandbox);
         }
 
         // Keep track of last used client for debugging purposes.
@@ -581,10 +561,7 @@ class Postnl
 
                 // Assemble exception data from the response.
                 $exceptionData = [];
-                $errors = $exception->detail->CifException->Errors->ExceptionData;
-                // Make sure `$errors` is an array.
-                $errors = is_array($errors) ? $errors : [$errors];
-                foreach ($errors as $error) {
+                foreach ($exception->detail->CifException->Errors->ExceptionData as $error) {
                     $exceptionData[] = ComplexTypes\ExceptionData::create()
                         ->setDescription($error->Description)
                         ->setErrorMsg($error->ErrorMsg)

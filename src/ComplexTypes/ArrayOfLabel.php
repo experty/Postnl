@@ -4,12 +4,12 @@ class ArrayOfLabel extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'Label';
 
     /**
-     * @var Label[] $Label
+     * @var Label[]
      */
     protected $Label = null;
 

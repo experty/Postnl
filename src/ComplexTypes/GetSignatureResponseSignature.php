@@ -6,24 +6,24 @@ class GetSignatureResponseSignature extends BaseType
 {
 
     /**
-     * @var string $Barcode
+     * @var string
      */
     protected $Barcode = null;
 
     /**
-     * @var DateTime $SignatureDate
+     * @var DateTime
      */
     protected $SignatureDate = null;
 
     /**
-     * @var base64Binary $SignatureImage
+     * @var string In base64 encoding.
      */
     protected $SignatureImage = null;
 
     /**
      * @param string $Barcode
      * @param DateTime $SignatureDate
-     * @param base64Binary $SignatureImage
+     * @param string $SignatureImage In base64 encoding.
      */
     public function __construct($Barcode, DateTime $SignatureDate, $SignatureImage)
     {
@@ -69,7 +69,7 @@ class GetSignatureResponseSignature extends BaseType
     }
 
     /**
-     * @return base64Binary
+     * @return string In base64 encoding.
      */
     public function getSignatureImage()
     {
@@ -77,7 +77,7 @@ class GetSignatureResponseSignature extends BaseType
     }
 
     /**
-     * @param base64Binary $SignatureImage
+     * @param string $SignatureImage In base64 encoding.
      * @return GetSignatureResponseSignature
      */
     public function setSignatureImage($SignatureImage)

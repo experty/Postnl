@@ -11,18 +11,17 @@ class BarcodeClient extends BaseClient
 {
 
     /**
-     * The URL of the production WSDL.
+     * @var string The URL of the production WSDL.
      */
-    const PRODUCTION_WSDL = 'https://service.postnl.com/CIF/BarcodeWebService/1_1/?wsdl';
+    const PRODUCTION_WSDL = 'https://api.postnl.nl/shipment/v1_1/barcode/soap.wsdl';
 
     /**
-     * The URL of the sandbox WSDL.
+     * @var string The URL of the sandbox WSDL.
      */
-    const SANDBOX_WSDL = 'https://testservice.postnl.com/CIF_SB/BarcodeWebService/1_1/?wsdl';
+    const SANDBOX_WSDL = 'https://api-sandbox.postnl.nl/shipment/v1_1/barcode/soap.wsdl';
 
     /**
-     * @var array $classes
-     *     The complex types used by this client.
+     * @var array The complex types used by this client.
      */
     protected $classes = [
         'GenerateBarcodeMessage',

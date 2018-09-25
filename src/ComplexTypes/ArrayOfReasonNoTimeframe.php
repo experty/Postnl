@@ -4,12 +4,12 @@ class ArrayOfReasonNoTimeframe extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'ReasonNoTimeframe';
 
     /**
-     * @var ReasonNoTimeframe[] $ReasonNoTimeframe
+     * @var ReasonNoTimeframe[]
      */
     protected $ReasonNoTimeframe = null;
 

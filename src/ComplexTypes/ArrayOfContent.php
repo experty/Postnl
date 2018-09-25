@@ -4,12 +4,12 @@ class ArrayOfContent extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'Content';
 
     /**
-     * @var Content[] $Content
+     * @var Content[]
      */
     protected $Content = null;
 

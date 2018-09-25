@@ -4,12 +4,12 @@ class ArrayOfCompleteStatusResponseShipment extends BaseArrayOfType
 {
 
     /**
-     * The name of the array property this class is a wrapper of.
+     * @var string The name of the array property this class is a wrapper of.
      */
     const WRAPPED_PROPERTY = 'CompleteStatusResponseShipment';
 
     /**
-     * @var CompleteStatusResponseShipment[] $CompleteStatusResponseShipment
+     * @var CompleteStatusResponseShipment[]
      */
     protected $CompleteStatusResponseShipment = null;
 

@@ -4,24 +4,24 @@ class CompleteStatusByReferenceRequest extends BaseType
 {
 
     /**
-     * @var Message $Message
+     * @var Message
      */
     protected $Message = null;
 
     /**
-     * @var RequestCustomer $Customer
+     * @var RequestCustomer
      */
     protected $Customer = null;
 
     /**
-     * @var RequestShipment $Shipment
+     * @var RequestShipment
      */
     protected $Shipment = null;
 
     /**
      * @param Message $Message
-     * @param RequestCustomer $Customer
-     * @param RequestShipment $Shipment
+     * @param RequestCustomer $RequestCustomer
+     * @param RequestShipment $RequestShipment
      */
     public function __construct(
         Message $Message,
